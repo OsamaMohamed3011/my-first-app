@@ -1,13 +1,6 @@
 // Form types for user creation/editing
 export interface UserFormProps {
-  user: {
-    id: number;
-    accountNumber: string;
-    firstName: string;
-    lastName: string;
-    currency: string;
-    type: string;
-  };
+  user: User;
   onSuccess: () => void;
   onCancel: () => void;
   onDelete: () => void;

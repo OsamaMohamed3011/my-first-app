@@ -12,10 +12,11 @@ async function getUser(id: string): Promise<User> {
 }
 
 export default async function UserDetailsPage({
-  params: { id },
+  params
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
   const t = await getTranslations('userDetails');
   const user = await getUser(id);
 

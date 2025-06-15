@@ -5,16 +5,10 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { API_ENDPOINTS, USERS_PER_PAGE, makeApiRequest } from '@/app/lib/api';
 import { transformUsersList } from '@/app/utils/userHelpers';
+import type { User, UsersResponse } from '@/app/types';
 import TableHeader from './TableHeader';
 import TablePagination from './TablePagination';
 import UserTableRow from './UserTableRow';
-
-interface UsersResponse {
-  users: any[];
-  total: number;
-  skip: number;
-  limit: number;
-}
 
 export default function UsersTable() {
   // Hooks and translations

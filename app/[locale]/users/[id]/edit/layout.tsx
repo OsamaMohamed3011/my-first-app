@@ -8,12 +8,13 @@ export default async function EditLayout({
   params
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
   // Load messages on the server side
   let messages;
   try {
-    messages = (await import(`../../../../../messages/${params.locale}.json`)).default;
+    messages = (await import(`../../../../../messages/${locale}.json`)).default;
   } catch (error) {
     console.error('Error loading messages:', error);
     return null;
@@ -21,7 +22,7 @@ export default async function EditLayout({
 
   return (
     <div className={inter.className}>
-      <ClientProvider locale={params.locale} messages={messages}>
+      <ClientProvider locale={locale} messages={messages}>
         {children}
       </ClientProvider>
     </div>
