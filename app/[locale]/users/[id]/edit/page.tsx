@@ -4,18 +4,8 @@ import { useTranslations } from 'next-intl';
 import { useRouter, useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { API_ENDPOINTS, makeApiRequest } from '@/app/lib/api';
+import { User } from '@/app/types';
 
-interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  age: number;
-  gender: string;
-  currency: string;
-  type: string;
-}
 
 export default function EditUserPage() {
   const t = useTranslations('users');
@@ -123,12 +113,12 @@ export default function EditUserPage() {
       <div className="max-w-2xl mx-auto p-6 bg-white min-h-screen">
         <div className="bg-red-50 border border-red-200 text-red-600 p-4 rounded-sm mb-6 text-center">
           {error}
-          <button
+        <button
             onClick={() => router.push(`/${locale}`)}
             className="mt-4 text-sm underline hover:no-underline block mx-auto"
-          >
+        >
             {t('form.backToList')}
-          </button>
+        </button>
         </div>
       </div>
     );
@@ -216,8 +206,8 @@ export default function EditUserPage() {
               required
               defaultValue={user.age}
               className="w-full px-3 py-2 border border-gray-300 rounded-sm focus:outline-none focus:ring-1 focus:ring-[#2D7B52] text-gray-900"
-            />
-          </div>
+          />
+        </div>
 
           <div>
             <label htmlFor="gender" className="block text-sm font-medium text-[#1B4D3E] mb-1">
@@ -325,7 +315,7 @@ export default function EditUserPage() {
               </button>
             </div>
           </div>
-        </div>
+      </div>
       )}
     </div>
   );

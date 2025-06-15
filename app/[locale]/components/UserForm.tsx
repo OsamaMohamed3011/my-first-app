@@ -2,15 +2,9 @@
 
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { API_ENDPOINTS } from '@/app/lib/api';
+import { API_ENDPOINTS, makeApiRequest } from '@/app/lib/api';
 import { prepareUserDataForApi } from '@/app/utils/userHelpers';
-
-interface UserFormProps {
-  user: User;
-  onSuccess: () => void;
-  onCancel: () => void;
-  onDelete: () => void;
-}
+import type { UserFormProps, UserFormData, User } from '@/app/types';
 
 export default function UserForm({ user, onSuccess, onCancel, onDelete }: UserFormProps) {
   const t = useTranslations('form');
@@ -22,7 +16,7 @@ export default function UserForm({ user, onSuccess, onCancel, onDelete }: UserFo
   const [formData, setFormData] = useState<UserFormData>({
     accountNumber: user.accountNumber,
     name: `${user.firstName} ${user.lastName}`,
-    currency: user.currency,
+    currency: user.currency, 
     type: user.type
   });
 
@@ -34,8 +28,7 @@ export default function UserForm({ user, onSuccess, onCancel, onDelete }: UserFo
 
     try {
       const preparedData = prepareUserDataForApi(formData, user);
-      
-      const response = await fetch(API_ENDPOINTS.users.update(user.id), {
+      await makeApiRequest(API_ENDPOINTS.users.update(user.id), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -43,12 +36,6 @@ export default function UserForm({ user, onSuccess, onCancel, onDelete }: UserFo
         body: JSON.stringify(preparedData),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to update user');
-      }
-
-      await response.json();
       onSuccess();
     } catch (err) {
       console.error('Error updating user:', err);
@@ -68,14 +55,9 @@ export default function UserForm({ user, onSuccess, onCancel, onDelete }: UserFo
     setError(null);
 
     try {
-      const response = await fetch(API_ENDPOINTS.users.delete(user.id), {
+      await makeApiRequest(API_ENDPOINTS.users.delete(user.id), {
         method: 'DELETE',
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to delete user');
-      }
 
       onDelete();
     } catch (err) {
@@ -88,7 +70,7 @@ export default function UserForm({ user, onSuccess, onCancel, onDelete }: UserFo
   // Handle form field changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev: UserFormData) => ({
       ...prev,
       [name]: value
     }));

@@ -1,8 +1,10 @@
 import { getTranslations } from 'next-intl/server';
 import { API_ENDPOINTS } from '@/app/lib/api';
+import { User } from '@/app/types';
+
 
 async function getUser(id: string): Promise<User> {
-  const response = await fetch(API_ENDPOINTS.users.get(parseInt(id)));
+  const response = await fetch(API_ENDPOINTS.users.get(parseInt(id)).toString());
   if (!response.ok) {
     throw new Error('Failed to fetch user');
   }

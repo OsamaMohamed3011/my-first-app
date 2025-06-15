@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { User } from '@/app/types';
 
 interface UserTableRowProps {
   user: User;

@@ -1,3 +1,5 @@
+import { User, UserFormData } from "../types";
+
 /**
  * Transforms raw user data from the API into our application's User type
  */
@@ -7,6 +9,8 @@ export function transformUserData(userData: any): User {
     firstName: userData.firstName,
     lastName: userData.lastName,
     name: `${userData.firstName} ${userData.lastName}`.trim(),
+    phone: userData.phone || '',
+    age: userData.age || 0,
     address: userData.address || {},
     company: userData.company || {},
     username: userData.username || userData.bank?.iban || '',
@@ -16,9 +20,10 @@ export function transformUserData(userData: any): User {
     type: userData.id % 2 === 0 ? 'ATM' : 'POS',
     bank: {
       iban: userData.bank?.iban || '',
-      currency: userData.bank?.currency || 'SAR'
+      currency: userData.bank?.currency || 'SAR',
+      cardNumber: userData.bank?.cardNumber || '',
+      cardExpire: userData.bank?.cardExpire || '12/25'
     },
-    image: userData.image,
     gender: userData.gender
   };
 }
@@ -45,11 +50,9 @@ export function prepareUserDataForApi(formData: UserFormData, existingUser: User
     lastName,
     username: formData.accountNumber,
     email: `${formData.accountNumber}@example.com`,
-    password: existingUser.password || 'dummy-password',
-    birthDate: '1990-01-01',
-    gender: existingUser.gender || 'other',
     accountNumber: formData.accountNumber,
     currency: formData.currency,
+    gender: existingUser.gender || 'other',
     type: formData.type,
     bank: {
       cardExpire: existingUser.bank?.cardExpire || '12/25',

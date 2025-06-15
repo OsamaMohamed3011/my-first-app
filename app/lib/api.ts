@@ -1,20 +1,5 @@
 import { BASE_URL, USERS_PER_PAGE, API_ENDPOINTS, ApiEndpoint } from '../config/api';
-
-// Types for API responses
-interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  bank: any;
-  image: string;
-  gender: string;
-}
-
-interface ApiResponse<T> {
-  data?: T;
-  status: number;
-  message?: string;
-}
+import { User, ApiResponse } from '../types';
 
 // API endpoints configuration
 export const API_ENDPOINTS_CONFIG = {
@@ -39,7 +24,7 @@ export const API_ENDPOINTS_CONFIG = {
     create: () => 
       `${BASE_URL}/users/add`
   }
-};
+}; 
 
 // API client functions
 export async function fetchUsers(page: number = 1): Promise<ApiResponse<User[]>> {
